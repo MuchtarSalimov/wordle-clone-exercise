@@ -19,11 +19,6 @@
     @apply border-gray-200 dark:border-gray-800;
   }
 
-  html,
-  body {
-    @apply text-gray-900 bg-gray-50 dark:bg-gray-950 dark:text-gray-200;
-  }
-
   .using-mouse * {
     outline: none !important;
   }
@@ -47,4 +42,14 @@
 }
 .guess-green {
   background-color: #6aaa64;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-10px); }
+  40%, 80% { transform: translateX(10px); }
+}
+
+.shaking {
+  animation: shake 0.4s;
 }

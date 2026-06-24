@@ -106,7 +106,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               className: 'font-bold',
             }}
           >
-            Wordle
+            Wordle Clone
           </Link>
           <Link
             to="/posts"
