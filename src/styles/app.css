@@ -1,0 +1,50 @@
+@import 'tailwindcss' source('../');
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: light dark;
+  }
+
+  * {
+    @apply border-gray-200 dark:border-gray-800;
+  }
+
+  html,
+  body {
+    @apply text-gray-900 bg-gray-50 dark:bg-gray-950 dark:text-gray-200;
+  }
+
+  .using-mouse * {
+    outline: none !important;
+  }
+}
+
+.letter-block {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  border: 1px solid #000;
+}
+
+.guess-black {
+  background-color: #333;
+}
+.guess-yellow {
+  background-color: #a59500;
+}
+.guess-green {
+  background-color: #6aaa64;
+}
