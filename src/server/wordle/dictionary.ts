@@ -23,10 +23,8 @@ export const isValidWordServer = createServerFn()
   .handler(async ({ data: word }) => {
     const start = Date.now()
     const dictionary = getDictionary()
-    console.log("timestamp b", start - Date.now())    
     // Return a simple boolean back to the client
 
     const result = dictionary.has(word)
-    console.log("timestamp c", start - Date.now())
     return result
   })

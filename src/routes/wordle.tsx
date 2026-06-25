@@ -1,21 +1,22 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Button, Center, Container, Flex, Grid, Title, Text} from '@mantine/core';
 import { useEffect, useRef, useState } from 'react';
-import { wordleList } from '~/data/wordle-list';
 import { isValidWordServer } from '../server/wordle/dictionary'
+import { getNewSecretWordIndexServer, showFinalAnswer, submitGuessToServer } from '~/server/wordle/guessing';
 
 export const Route = createFileRoute('/wordle')({
   component: RouteComponent,
+  loader: async() => {
+    return await getNewSecretWordIndexServer();
+  }
 })
 
 type gameState = 'playing' | 'win' | 'gameover'
-type letterStatus = 'black' | 'yellow' | 'green'
-type letterGuess = {
+export type letterStatus = 'black' | 'yellow' | 'green'
+export type letterGuess = {
   status: letterStatus;
   letter: string;
 }
-
-let secretWord = wordleList[Math.floor(Math.random() * wordleList.length)]
 const startingLetterPool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 const startingState: {
@@ -34,13 +35,16 @@ function RouteComponent() {
   const [currentWord, setCurrentWord] = useState("")
   const [gameState, setGameState] = useState<gameState>('playing')
   const [remainingLetterPool, setRemainingLetterPool] = useState(startingLetterPool)
+  const [secretWordIndex, setSecretWordIndex] = useState<number>(Route.useLoaderData())
+  const [finalAnswer, setFinalAnswer] = useState("")
 
-  function resetGame () {
-    secretWord = wordleList[Math.floor(Math.random() * wordleList.length)]
+  async function resetGame () {
+    setSecretWordIndex(await getNewSecretWordIndexServer())
     setGuessesTaken(0) 
     setBoard(startingState)
     setGameState('playing')
     setRemainingLetterPool(startingLetterPool)
+    setFinalAnswer("")
   }
 
   function pressBackspace() {
@@ -95,28 +99,20 @@ function RouteComponent() {
       document.getElementById("board")?.classList.toggle('shaking')
       await setTimeout(() => { document.getElementById("board")?.classList.toggle('shaking') }, 1000)
     } else {
-      if (submittedWord === secretWord) {
+      const guessResponse = await submitGuessToServer({data:{ wordIndex: secretWordIndex, wordGuess: submittedWord}})
+      if (guessResponse.correct) {
         setGameState('win')
       } else if (guessesTaken === 5) {
         setGameState('gameover')
+        setFinalAnswer(await showFinalAnswer({data : { wordIndex: secretWordIndex }}))
       } else {
         setRemainingLetterPool((prev) => prev.split("").filter((l) => submittedWord.indexOf(l) === -1).join())
       }
       setGuessesTaken((prev) => prev + 1);
       setCurrentWord(""); // reset the current word after submission
-      const newWordGuess: letterGuess[] = [];
-      submittedWord.split('').forEach((letter, index) => {
-        if (letter === secretWord[index]) {
-          newWordGuess.push({ status: 'green', letter });
-        } else if (secretWord.includes(letter)) {
-          newWordGuess.push({ status: 'yellow', letter });
-        } else {
-          newWordGuess.push({ status: 'black', letter });
-        }
-      });
       setBoard((prevBoard) => {
         return {
-          pastWords: [...prevBoard.pastWords, newWordGuess],
+          pastWords: [...prevBoard.pastWords, guessResponse.guessBreakdown],
           futureWords:[...prevBoard.futureWords.slice(0, -1)],
         };
       })
@@ -133,7 +129,7 @@ function RouteComponent() {
       <br/>
       <Board></Board>
       <br/>
-      {<Center><Text display={gameState !=="playing" ? "block" : "none"}>{gameState === "win"? "WIN" : `The word was ${secretWord}`}</Text></Center>}
+      {<Center><Text display={gameState !=="playing" ? "block" : "none"}>{gameState === "win"?  "WIN" : `The word was ${finalAnswer}`}</Text></Center>}
       <br/>
       {<Center><Button display={gameState !=="playing" ? "block" : "none"} onClick={() => resetGame()}> Play Again</Button></Center>}
       <VisualKeyboardComponent></VisualKeyboardComponent>
