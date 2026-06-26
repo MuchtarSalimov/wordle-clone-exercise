@@ -7,7 +7,7 @@
     "dev": "vite dev",
     "build": "vite build && tsc --noEmit",
     "preview": "vite preview",
-    "start": "pnpx srvx --prod -s ../client dist/server/server.js"
+    "start": "npx srvx --prod -s ../client dist/server/server.js"
   },
   "dependencies": {
     "@mantine/core": "^9.4.0",
@@ -24,6 +24,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "redaxios": "^0.5.1",
+    "srvx": "^0.11.17",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
