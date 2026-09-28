@@ -1,4 +1,4 @@
-import { t as getServerFnById } from "./assets/__23tanstack-start-server-fn-resolver-Bt0hd3nH.js";
+import { t as getServerFnById } from "./assets/__23tanstack-start-server-fn-resolver-Bp7VL7uC.js";
 import { a as flattenMiddlewares, c as createNullProtoObject, d as TSS_CONTENT_TYPE_FRAMED_VERSIONED, f as TSS_FORMDATA_CONTEXT, h as X_TSS_SERIALIZED, l as safeObjectMerge, m as X_TSS_RAW_RESPONSE, n as getDefaultSerovalPlugins, o as getStartContext, p as TSS_SERVER_FUNCTION, r as createCsrfMiddleware, s as runWithStartContext, t as mergeHeaders, u as FrameType } from "./assets/esm-iTNSyFOE.js";
 import "react";
 import { RouterProvider } from "@tanstack/react-router";
@@ -89,7 +89,7 @@ function getResponse() {
 * the dev styles URL for route-scoped CSS collection.
 */
 async function getStartManifest(matchedRoutes) {
-	const { tsrStartManifest } = await import("./assets/_tanstack-start-manifest_v-K0AlQd7k.js");
+	const { tsrStartManifest } = await import("./assets/_tanstack-start-manifest_v-BRPugZeO.js");
 	const startManifest = tsrStartManifest();
 	let routes = startManifest.routes;
 	routes[rootRouteId];
@@ -1048,7 +1048,7 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
 	const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-		import("./assets/router-DpZkIHXz.js"),
+		import("./assets/router-0M_jKwnS.js"),
 		import("./assets/start-5Z2QO8AU.js"),
 		import("./assets/empty-plugin-adapters-D9UWiqvJ.js")
 	]);

@@ -1,1 +1,0 @@
-import{t as e}from"./jsx-runtime-DGeXAQPT.js";import{k as t}from"./index-BQ1eUW_2.js";var n=e(),r=()=>(0,n.jsx)(t,{children:`User not found`});export{r as notFoundComponent};
